@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Lista de Tarefas</title>
+  <link rel="icon" href="img/logo.jpg" type="img">
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <h1>Lista de Tarefas</h1>
+
+    <main class="container">
+    <div class="container-tarefa">
+        <label for="text">Digite sua nova tarefa:</label>
+        <input type="text" class="novaTarefa" placeholder="Digite aqui sua tarefa.">
+    </div>
+        <div class="container2">
+    <div class="container_data">
+        <label for="date">Data da Tarefa</label>
+        <input type="date" class="dataTarefa">
+    </div>
+    <div class="container_hora">
+        <label for="time">Horario da Tarefa</label>
+        <input type="time" class="horaTarefa">
+    </div>
+        </div>
+        <button class="btnAdicionar" onclick="btnAdicionar()">Adicionar</button>
+ 
+        <h2>Minhas Tarefas</h2>
+        <ul class="listas"></ul>
+    </main>
+    <footer>
+        <img src="img/devedu.png" alt="logo2">
+        <p>&copy; 2025 Dev/Edu.</p>
+    </footer>
+    
+    <script src="script.js"></script>
+</body>
+</html>
