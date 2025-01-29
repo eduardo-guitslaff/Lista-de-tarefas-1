@@ -157,4 +157,40 @@ function carregarTarefas() {
     });
 }
 
+// Verificar notificações
+function verificarNotificacoes() {
+    const agora = new Date();
+    tarefas.forEach(tarefa => {
+        const dataHoraTarefa = new Date(`${tarefa.data}T${tarefa.hora}:00`);
+        const diferencaTempo = dataHoraTarefa - agora;
+
+        // Se a tarefa está dentro do intervalo de 10 minutos
+        if (diferencaTempo > 0 && diferencaTempo <= 600000) { // 600000ms = 10 minutos
+            notificarTarefa(tarefa);
+        }
+    });
+}
+
+// Enviar notificação
+function notificarTarefa(tarefa) {
+    if (Notification.permission === 'granted') {
+        new Notification('Lembrete de Tarefa', {
+            body: `Sua tarefa "${tarefa.descricao}" está prestes a vencer!`,
+            icon: 'icone-notificacao.png' // Adicione um ícone se necessário
+        });
+    } else if (Notification.permission !== 'denied') {
+        Notification.requestPermission().then(permission => {
+            if (permission === 'granted') {
+                new Notification('Lembrete de Tarefa', {
+                    body: `Sua tarefa "${tarefa.descricao}" está prestes a vencer!`,
+                    icon: 'icone-notificacao.png'
+                });
+            }
+        });
+    }
+}
+
+// Verificar tarefas a cada 60 segundos
+setInterval(verificarNotificacoes, 60000); // Executa a cada 1 minuto
+
 window.onload = carregarTarefas;
