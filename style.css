@@ -2,7 +2,6 @@
     --Cor-Principal: #f8f8f8;
     --cor-Contorno: #000000;
     --Cor-fontes: #000000;
-    /* Cor dos botões */
     --cor-botao: #0e1310;
     --cor-hoverBtn: #000000;
     --cor-placeholder: #c4c4c4;
@@ -35,15 +34,15 @@ main {
 
 .container {
     max-width: 600px;
-    height: 100%;
-    min-height: 100%;
     margin: 0 auto;
     gap: 20px;
     font-size: 14px;
     flex-direction: column;
     justify-content: flex-start;
 }
-
+.container-tarefa{
+    width: 97%;
+}
 .container-tarefa, .container2 {
     margin-bottom: 20px;
 }
@@ -54,7 +53,6 @@ h1 {
     color: var(--cor-Contorno);
 }
 
-/* Input do adicionar tarefa */
 .novaTarefa {
     width: 100%;
     padding: 15px 10px;
@@ -78,32 +76,22 @@ label {
 
 .container2 {
     margin-bottom: 10px;
-    width: 100%;
     display: flex;
     gap: 5px;
     padding: 0;
 }
 
-.container_data {
+.container_data,
+.container_hora {
     display: flex;
     flex-direction: column;
     margin-bottom: 15px;
     color: var(--Cor-fontes);
 }
 
-.container_data input {
-    padding: 5.2px;
-}
-
-.container_hora {
-    display: flex;
-    flex-direction: column;
-    margin-bottom: 10px;
-    color: #333;
-}
-
+.container_data input,
 .container_hora input {
-    padding: 4px;
+    padding: 5px;
 }
 
 h2 {
@@ -117,7 +105,7 @@ ul.listas {
     margin: 0;
     max-height: 400px;
     overflow-y: auto;
-    margin-bottom: 20px; /* Ajuste para reduzir o espaço abaixo da lista */
+    font-size: 19px;
 }
 
 ul.listas li {
@@ -128,7 +116,7 @@ ul.listas li {
     gap: 8px;
     padding: 10px 15px;
     border-radius: 5px;
-    margin-bottom: 5px; /* Menos espaço entre os itens */
+    margin-bottom: 8px;
     border: 1px solid var(--cor-Contorno);
     background-color: var(--Cor-Principal);
     word-wrap: break-word;
@@ -137,8 +125,8 @@ ul.listas li {
 .tarefa-descricao {
     font-weight: bold;
     word-wrap: break-word;
+    overflow-wrap: break-word;
     white-space: normal;
-    word-break: break-word;
 }
 
 .tarefa-data {
@@ -151,7 +139,6 @@ ul.listas li {
     display: flex;
     gap: 10px;
     margin-top: 10px;
-    margin-bottom: 5px; /* Reduzido o espaço abaixo dos botões */
     align-items: center;
 }
 
@@ -160,8 +147,7 @@ ul.listas li {
     justify-content: center;
     align-items: center;
     margin-left: auto;
-    height: 6px;
-    
+
 }
 
 button:hover {
@@ -235,7 +221,6 @@ body {
     border-radius: 5px;
 }
 
-/* Estilo para tarefas concluídas */
 .concluida .tarefa-descricao {
     text-decoration: line-through;
     color: #888;
@@ -245,18 +230,53 @@ body {
     color: #888;
 }
 
+@media (max-width: 768px) {
+    main {
+        width: 90%;
+        padding: 15px;
+    }
+
+    h1, h2 {
+        font-size: 24px;
+    }
+
+    ul.listas li {
+        font-size: 14px;
+        padding: 8px;
+    }
+
+    .tarefa-descricao {
+        font-size: 16px;
+    }
+
+    .btnAdicionar {
+        font-size: 16px;
+        padding: 8px;
+    }
+
+    .btn-editar, .btn-remover {
+        font-size: 14px;
+        padding: 4px 8px;
+    }
+}
+
 @media (max-width: 500px) {
     ul.listas li {
+        font-size: 12px;
+        padding: 6px;
+    }
+
+    .tarefa-descricao {
         font-size: 14px;
     }
 
-    .tarefa-data {
-        font-size: 10px;
+    .btnAdicionar {
+        font-size: 14px;
+        padding: 6px;
     }
-    .novaTarefa{
-        padding: 10px 0px 10px 0px;
-    }
-    .novaTarefa::placeholder {
-        font-size: 15px;
+
+    .btn-editar, .btn-remover {
+        font-size: 12px;
+        padding: 3px 6px;
     }
 }
