@@ -1,196 +1,129 @@
-let tarefas = JSON.parse(localStorage.getItem('tarefas')) || [];
+// Variáveis de referência para os elementos HTML
+const inputTarefa = document.querySelector('.novaTarefa');
+const listaTarefas = document.querySelector('.listas');
+const btnAdicionar = document.querySelector('.btnAdicionar');
 
-function validarData(data) {
-    const dataAtual = new Date();
-    const dataInserida = new Date(data + 'T00:00'); // Garante que apenas a data seja considerada
-
-    // Zerar horas, minutos e segundos para garantir a comparação correta
-    dataAtual.setHours(0, 0, 0, 0);
-
-    // Verifica se a data inserida é válida e não está no passado
-    if (isNaN(dataInserida.getTime()) || dataInserida < dataAtual) {
-        return false;
-    }
-
-    return true;
-}
-
-// Função para validar o horário
-function validarHorario(horario) {
-    // Expressão regular para validar o formato HH:mm
-    const regexHorario = /^([01]\d|2[0-3]):([0-5]\d)$/;
-    return regexHorario.test(horario);
-}
-
-function btnAdicionar() {
-    const novaTarefa = document.querySelector('.novaTarefa').value.trim();
-    const dataTarefa = document.querySelector('.dataTarefa').value;
-    const horaTarefa = document.querySelector('.horaTarefa').value;
-
-    if (!novaTarefa) {
-        alert('Por favor, digite sua tarefa.');
-        return;
-    }
-
-    if (!dataTarefa || !validarData(dataTarefa)) {
-        alert('Por favor, insira uma data válida.');
-        return;
-    }
-
-    if (!horaTarefa || !validarHorario(horaTarefa)) {
-        alert('Por favor, insira um horário válido no formato HH:mm.');
-        return;
-    }
-
-    const tarefaObj = {
-        descricao: novaTarefa,
-        data: dataTarefa,
-        hora: horaTarefa
-    };
-
-    tarefas.push(tarefaObj);
-    criarElementoTarefa(tarefaObj);
-    salvarTarefasNoLocalStorage();
-    limparCampos();
-}
-
-function criarElementoTarefa(tarefaObj) {
-    const listas = document.querySelector('.listas');
-
-    const li = document.createElement('li');
-
-    // Descrição
-    const descricao = document.createElement('div');
-    descricao.className = 'tarefa-descricao';
-    descricao.textContent = tarefaObj.descricao;
-
-    // Data e hora
-    const data = document.createElement('div');
-    data.className = 'tarefa-data';
-    data.textContent = `Data: ${tarefaObj.data} | Hora: ${tarefaObj.hora}`;
-
-    // Botões
-    const botoes = document.createElement('div');
-    botoes.className = 'tarefa-botoes';
-
-    const btnEditar = document.createElement('button');
-    btnEditar.textContent = 'Editar';
-    btnEditar.classList.add('btn-editar');
-    btnEditar.onclick = () => editarTarefa(li, tarefaObj);
-
-    const btnRemover = document.createElement('button');
-    btnRemover.textContent = 'Remover';
-    btnRemover.classList.add('btn-remover');
-    btnRemover.onclick = () => removerTarefa(li, tarefaObj);
-
-    botoes.appendChild(btnEditar);
-    botoes.appendChild(btnRemover);
-
-    // Adiciona os elementos no li
-    li.appendChild(descricao);
-    li.appendChild(data);
-    li.appendChild(botoes);
-
-    listas.appendChild(li);
-}
-
-function editarTarefa(li, tarefaObj) {
-    const novaDescricao = prompt('Edite sua tarefa:', tarefaObj.descricao);
-    if (novaDescricao && novaDescricao.trim() !== '') {
-        tarefaObj.descricao = novaDescricao;
-    }
-
-    let novaData;
-    do {
-        novaData = prompt('Edite a data (AAAA-MM-DD):', tarefaObj.data);
-        if (!novaData || validarData(novaData)) {
-            break;
-        }
-        alert('Por favor, insira uma data válida e futura.');
-    } while (true);
-
-    if (novaData) {
-        tarefaObj.data = novaData;
-    }
-
-    let novaHora;
-    do {
-        novaHora = prompt('Edite o horário (HH:MM):', tarefaObj.hora);
-        if (!novaHora || validarHorario(novaHora)) {
-            break;
-        }
-        alert('Por favor, insira um horário válido no formato HH:mm.');
-    } while (true);
-
-    if (novaHora) {
-        tarefaObj.hora = novaHora;
-    }
-
-    li.querySelector('.tarefa-descricao').textContent = tarefaObj.descricao;
-    li.querySelector('.tarefa-data').textContent = `Data: ${tarefaObj.data} | Hora: ${tarefaObj.hora}`;
-    salvarTarefasNoLocalStorage();
-}
-
-function removerTarefa(li, tarefaObj) {
-    const index = tarefas.indexOf(tarefaObj);
-    if (index !== -1) {
-        tarefas.splice(index, 1);
-    }
-    li.remove();
-    salvarTarefasNoLocalStorage();
-}
-
-function limparCampos() {
-    document.querySelector('.novaTarefa').value = '';
-    document.querySelector('.dataTarefa').value = '';
-    document.querySelector('.horaTarefa').value = '';
-    document.querySelector('.novaTarefa').focus();
-}
-
-function salvarTarefasNoLocalStorage() {
+// Função para salvar as tarefas no localStorage
+function salvarTarefas(tarefas) {
     localStorage.setItem('tarefas', JSON.stringify(tarefas));
 }
 
+// Função para carregar as tarefas do localStorage
 function carregarTarefas() {
-    tarefas.forEach(tarefaObj => {
-        criarElementoTarefa(tarefaObj);
-    });
+    const tarefas = JSON.parse(localStorage.getItem('tarefas')) || [];
+    tarefas.forEach(tarefa => criarTarefa(tarefa.descricao, tarefa.data, tarefa.hora, tarefa.concluida));
 }
 
-// Verificar notificações
-function verificarNotificacoes() {
-    const agora = new Date();
-    tarefas.forEach(tarefa => {
-        const dataHoraTarefa = new Date(`${tarefa.data}T${tarefa.hora}:00`);
-        const diferencaTempo = dataHoraTarefa - agora;
-
-        // Se a tarefa está dentro do intervalo de 10 minutos
-        if (diferencaTempo > 0 && diferencaTempo <= 600000) { // 600000ms = 10 minutos
-            notificarTarefa(tarefa);
-        }
-    });
-}
-
-// Enviar notificação
-function notificarTarefa(tarefa) {
-    if (Notification.permission === 'granted') {
-        new Notification('Lembrete de Tarefa', {
-            body: `Sua tarefa "${tarefa.descricao}" está prestes a vencer!`,
-            icon: 'icone-notificacao.png' // Adicione um ícone se necessário
-        });
-    } else if (Notification.permission !== 'denied') {
-        Notification.requestPermission().then(permission => {
-            if (permission === 'granted') {
-                new Notification('Lembrete de Tarefa', {
-                    body: `Sua tarefa "${tarefa.descricao}" está prestes a vencer!`,
-                    icon: 'icone-notificacao.png'
-                });
-            }
-        });
+// Função para criar a tarefa na lista
+function criarTarefa(descricao, data, hora, concluida = false) {
+    const tarefaLi = document.createElement('li');
+    tarefaLi.classList.add('tarefa');
+    if (concluida) {
+        tarefaLi.classList.add('concluida');
     }
+
+    tarefaLi.innerHTML = `
+        <div class="tarefa-conteudo">
+            <div class="tarefa-descricao">
+                ${descricao}
+            </div>
+            <div class="tarefa-data">
+                ${data} - ${hora}
+            </div>
+        </div>
+        <div class="tarefa-botoes">
+            <button class="btn-editar" onclick="editarTarefa(event)">Editar</button>
+            <button class="btn-remover" onclick="removerTarefa(event)">Remover</button>
+        </div>
+        <div class="tarefa-checkbox">
+            <input type="checkbox" ${concluida ? 'checked' : ''} onchange="marcarConcluida(event)" />
+        </div>
+    `;
+
+    // Adicionar a tarefa à lista
+    listaTarefas.appendChild(tarefaLi);
 }
 
-// Verificar tarefas a cada 60 segundos
-setInterval(verificarNotificacoes, 60000); // Executa a cada 1 minuto
+// Função para editar uma tarefa
+function editarTarefa(event) {
+    const li = event.target.closest('li');
+    const descricao = li.querySelector('.tarefa-descricao').textContent.trim();
+    const data = li.querySelector('.tarefa-data').textContent.split(' - ')[0].trim();
+    const hora = li.querySelector('.tarefa-data').textContent.split(' - ')[1].trim();
 
-window.onload = carregarTarefas;
+    inputTarefa.value = descricao; // Preenche o input com a descrição da tarefa
+    // Remover a tarefa do localStorage e da lista
+    removerTarefa(event);
+}
+
+// Função para remover uma tarefa
+function removerTarefa(event) {
+    const li = event.target.closest('li');
+    li.remove();
+
+    const tarefas = JSON.parse(localStorage.getItem('tarefas')) || [];
+    const index = tarefas.findIndex(tarefa => tarefa.descricao === li.querySelector('.tarefa-descricao').textContent.trim());
+    if (index !== -1) {
+        tarefas.splice(index, 1);
+    }
+    salvarTarefas(tarefas); // Atualiza o localStorage
+}
+
+// Função para marcar a tarefa como concluída
+function marcarConcluida(event) {
+    const checkbox = event.target;
+    const li = checkbox.closest('li');
+    const descricao = li.querySelector('.tarefa-descricao').textContent.trim();
+    const tarefas = JSON.parse(localStorage.getItem('tarefas')) || [];
+
+    // Encontrar o índice da tarefa no array de tarefas
+    const index = tarefas.findIndex(tarefa => tarefa.descricao === descricao);
+
+    // Se a tarefa existir, atualizar seu status de concluída
+    if (index !== -1) {
+        tarefas[index].concluida = checkbox.checked;
+    }
+
+    salvarTarefas(tarefas); // Atualiza o localStorage
+
+    // Reorganizar as tarefas com as concluídas no final
+    reorganizarTarefas();
+}
+
+// Função para reorganizar as tarefas com as concluídas no final
+function reorganizarTarefas() {
+    const tarefas = JSON.parse(localStorage.getItem('tarefas')) || [];
+    const tarefasConcluidas = tarefas.filter(tarefa => tarefa.concluida);
+    const tarefasNaoConcluidas = tarefas.filter(tarefa => !tarefa.concluida);
+    const todasTarefas = [...tarefasNaoConcluidas, ...tarefasConcluidas];
+
+    // Limpar a lista antes de adicionar novamente
+    listaTarefas.innerHTML = '';
+    todasTarefas.forEach(tarefa => criarTarefa(tarefa.descricao, tarefa.data, tarefa.hora, tarefa.concluida));
+
+    // Salvar novamente as tarefas no localStorage
+    salvarTarefas(todasTarefas);
+}
+
+// Função para adicionar nova tarefa
+btnAdicionar.addEventListener('click', function() {
+    const descricao = inputTarefa.value.trim();
+    const data = new Date().toLocaleDateString('pt-BR');
+    const hora = new Date().toLocaleTimeString('pt-BR', { hour12: false });
+
+    if (descricao === '') return; // Não adiciona tarefas vazias
+
+    criarTarefa(descricao, data, hora);
+
+    const tarefas = JSON.parse(localStorage.getItem('tarefas')) || [];
+    tarefas.push({ descricao, data, hora, concluida: false });
+    salvarTarefas(tarefas); // Salva a tarefa no localStorage
+
+    inputTarefa.value = ''; // Limpa o campo de input
+
+    // Reorganizar as tarefas com as concluídas no final
+    reorganizarTarefas();
+});
+
+// Carregar as tarefas do localStorage ao carregar a página
+carregarTarefas();
