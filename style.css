@@ -311,13 +311,13 @@ body {
     .container_data input{
         padding: 4.5px;
     }
-    .container_hora{
-
-    }
    
     ul.listas li {
-        font-size: 12px;
+        font-size: 14px;
         padding: 6px;
+    }
+    .tarefa-data{
+        font-size: 11px;
     }
 
     .tarefa-descricao {
