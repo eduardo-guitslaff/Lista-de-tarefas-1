@@ -52,8 +52,7 @@ function editarTarefa(event) {
     const hora = li.querySelector('.tarefa-data').textContent.split(' - ')[1].trim();
 
     inputTarefa.value = descricao; // Preenche o input com a descrição da tarefa
-    // Remover a tarefa do localStorage e da lista
-    removerTarefa(event);
+    removerTarefa(event); // Remover a tarefa para editar
 }
 
 // Função para remover uma tarefa
@@ -76,18 +75,15 @@ function marcarConcluida(event) {
     const descricao = li.querySelector('.tarefa-descricao').textContent.trim();
     const tarefas = JSON.parse(localStorage.getItem('tarefas')) || [];
 
-    // Encontrar o índice da tarefa no array de tarefas
     const index = tarefas.findIndex(tarefa => tarefa.descricao === descricao);
 
-    // Se a tarefa existir, atualizar seu status de concluída
     if (index !== -1) {
         tarefas[index].concluida = checkbox.checked;
     }
 
     salvarTarefas(tarefas); // Atualiza o localStorage
 
-    // Reorganizar as tarefas com as concluídas no final
-    reorganizarTarefas();
+    reorganizarTarefas(); // Reorganiza as tarefas
 }
 
 // Função para reorganizar as tarefas com as concluídas no final
@@ -97,12 +93,10 @@ function reorganizarTarefas() {
     const tarefasNaoConcluidas = tarefas.filter(tarefa => !tarefa.concluida);
     const todasTarefas = [...tarefasNaoConcluidas, ...tarefasConcluidas];
 
-    // Limpar a lista antes de adicionar novamente
     listaTarefas.innerHTML = '';
     todasTarefas.forEach(tarefa => criarTarefa(tarefa.descricao, tarefa.data, tarefa.hora, tarefa.concluida));
 
-    // Salvar novamente as tarefas no localStorage
-    salvarTarefas(todasTarefas);
+    salvarTarefas(todasTarefas); // Salva novamente no localStorage
 }
 
 // Função para adicionar nova tarefa
@@ -111,7 +105,10 @@ btnAdicionar.addEventListener('click', function() {
     const data = new Date().toLocaleDateString('pt-BR');
     const hora = new Date().toLocaleTimeString('pt-BR', { hour12: false });
 
-    if (descricao === '') return; // Não adiciona tarefas vazias
+    if (descricao === '') {
+        alert('Por favor, digite uma descrição para a tarefa!');
+        return; // Não adiciona tarefas vazias
+    }
 
     criarTarefa(descricao, data, hora);
 
@@ -119,10 +116,12 @@ btnAdicionar.addEventListener('click', function() {
     tarefas.push({ descricao, data, hora, concluida: false });
     salvarTarefas(tarefas); // Salva a tarefa no localStorage
 
-    inputTarefa.value = ''; // Limpa o campo de input
+    inputTarefa.value = ''; // Limpa o campo de input de descrição
+    // Limpar inputs de data e hora (caso existam)
+    document.querySelector('.dataTarefa').value = ''; // Caso haja um input de data específico
+    document.querySelector('.horaTarefa').value = ''; // Caso haja um input de hora específico
 
-    // Reorganizar as tarefas com as concluídas no final
-    reorganizarTarefas();
+    reorganizarTarefas(); // Reorganizar as tarefas com as concluídas no final
 });
 
 // Carregar as tarefas do localStorage ao carregar a página
