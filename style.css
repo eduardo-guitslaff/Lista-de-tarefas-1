@@ -1,10 +1,11 @@
 :root {
-    --Cor-Principal: #f8f8f8;
-    --cor-Contorno: #000000;
-    --Cor-fontes: #000000;
-    --cor-botao: #0e1310;
-    --cor-hoverBtn: #000000;
+    --Cor-Principal: #000000;
+    --cor-Contorno: #ffffff;
+    --Cor-fontes: #ffffff;
+    --cor-botao: #003051;
+    --cor-hoverBtn: #01243b;
     --cor-placeholder: #c4c4c4;
+    --cor-fundo-Listas:#000000;
 }
 
 html, body {
@@ -14,22 +15,20 @@ html, body {
     display: flex;
     flex-direction: column;
     background-color: var(--Cor-Principal);
-    background-repeat: no-repeat;
-    background-attachment: fixed;
-    background-size: cover;
 }
 
 body {
-    font-family: Arial, sans-serif;
-    flex: 1;
     display: flex;
     flex-direction: column;
+    min-height: 100vh; /* Garante que o body ocupe toda a altura da tela */
 }
 
+
 main {
+    flex-grow: 1; /* Faz o conteúdo ocupar o espaço disponível */
     width: 70%;
-    flex-grow: 1;
     padding: 20px;
+    font-family: Arial, Helvetica, sans-serif;
 }
 
 .container {
@@ -48,9 +47,11 @@ main {
 }
 
 h1 {
-    font-size: 32px;
+    font-family: Arial, Helvetica, sans-serif;
+    font-size: 40px;
     text-align: center;
     color: var(--cor-Contorno);
+    margin-top: 50px;
 }
 
 .novaTarefa {
@@ -59,7 +60,7 @@ h1 {
     margin-top: 5px;
     margin-bottom: 10px;
     border: solid 1px var(--Cor-fontes);
-    border-radius: 3px;
+    border-radius: 5px;
 }
 
 .novaTarefa::placeholder {
@@ -86,12 +87,19 @@ label {
     display: flex;
     flex-direction: column;
     margin-bottom: 15px;
+    padding-top: 20px;
     color: var(--Cor-fontes);
 }
 
-.container_data input,
-.container_hora input {
+.container_data input {
     padding: 5px;
+    border-radius: 5px;
+    border: solid 1px var(--Cor-fontes);
+}
+.container_hora input{
+    padding: 3.8px;
+    border-radius: 5px;
+    border: solid 1px var(--Cor-fontes);
 }
 
 h2 {
@@ -103,31 +111,39 @@ h2 {
 ul.listas {
     padding: 0;
     margin: 0;
-    max-height: 400px;
+    max-height: 700px;
     overflow-y: auto;
     font-size: 19px;
+    color: var(--Cor-fontes);
 }
 
 ul.listas li {
     display: flex;
-    flex-direction: column;
-    align-items: flex-start;
-    justify-content: flex-start;
-    gap: 8px;
-    padding: 10px 15px;
+    flex-direction: column; /* Força os elementos a ficarem em coluna */
+    align-items: flex-start; /* Alinha os itens no início */
+    gap: 5px;
+    padding: 10px;
     border-radius: 5px;
     margin-bottom: 8px;
     border: 1px solid var(--cor-Contorno);
     background-color: var(--Cor-Principal);
     word-wrap: break-word;
-}
-
-.tarefa-descricao {
-    font-weight: bold;
-    word-wrap: break-word;
     overflow-wrap: break-word;
     white-space: normal;
+    background-color: var(--cor-fundo-Listas);
 }
+
+
+ .tarefa-descricao {
+    font-weight: bold;
+    max-width: 100%; /* Garante que o texto respeite o tamanho do contêiner */
+    word-wrap: break-word;
+    overflow-wrap: anywhere; /* Força a quebra de palavras longas */
+    white-space: normal; /* Permite múltiplas linhas */
+    display: block; /* Garante que o elemento ocupe toda a largura */
+}
+    
+
 
 .tarefa-data {
     font-size: 14px;
@@ -149,6 +165,37 @@ ul.listas li {
     margin-left: auto;
 
 }
+input[type="checkbox"] {
+    background-color: black;    /* Fundo preto */
+    border: 2px solid white;    /* Contorno branco */
+    width: 20px;                /* Tamanho do checkbox */
+    height: 20px;               /* Tamanho do checkbox */
+    border-radius: 4px;         /* Bordas arredondadas (opcional) */
+    appearance: none;           /* Remove a aparência padrão do checkbox */
+    position: relative;
+}
+
+input[type="checkbox"]:checked {
+    background-color: black;    /* Fundo preto quando marcado */
+    border: 2px solid white;    /* Contorno branco quando marcado */
+}
+
+input[type="checkbox"]:after {
+    content: '';                
+    position: absolute;
+    left: 5px;
+    top: 5px;
+    width: 10px;                /* Tamanho da marca de seleção */
+    height: 10px;               /* Tamanho da marca de seleção */
+    background-color: white;    /* Cor da marca de seleção */
+    opacity: 0;                 /* Inicialmente invisível */
+    transition: opacity 0.3s;   /* Transição suave ao marcar/desmarcar */
+}
+
+input[type="checkbox"]:checked:after {
+    opacity: 1;                 /* Torna a marca visível quando marcado */
+}
+
 
 button:hover {
     background-color: var(--cor-hoverBtn);
@@ -159,7 +206,7 @@ button:hover {
     cursor: pointer;
     padding: 10px;
     border: none;
-    border-radius: 3px;
+    border-radius: 5px;
     background-color: var(--cor-botao);
     color: #fff;
     font-size: 20px;
@@ -170,7 +217,7 @@ button:hover {
     background-color: #0c1830;
     color: white;
     border: none;
-    padding: 5px 10px;
+    padding: 5px 20px;
     border-radius: 3px;
     cursor: pointer;
 }
@@ -193,13 +240,13 @@ button:hover {
 }
 
 footer {
-    background-color: #333;
+    background-color: #000000;
     color: white;
     text-align: center;
     padding: 10px;
     font-size: 14px;
     width: 100%;
-    margin-top: auto;
+    border-top: solid 0.5px rgb(27, 27, 27);
 }
 
 footer p {
