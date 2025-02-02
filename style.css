@@ -1,30 +1,41 @@
 :root {
-    --Cor-Principal: #000000;
     --cor-Contorno: #ffffff;
     --Cor-fontes: #ffffff;
-    --cor-botao: #003051;
-    --cor-hoverBtn: #01243b;
-    --cor-placeholder: #c4c4c4;
-    --cor-fundo-Listas:#000000;
+    /*Botao principal*/
+    --cor-botao-principal: #ffffff;
+    --cor-hoverBtn: #a1a4a7;
+    --cor-placeholder: #ffffff;
+
+    /*Botao editar*/
+    --cor-btneditar:rgb(0, 168, 235);
+    --cor-btnprincipalFonte:black;
+    --font-futurista: 'Orbitron', sans-serif;
+
+    /*Botao remover*/
+    --cor-btnremover:red;
 }
 
 html, body {
     height: 100%;
     margin: 0;
     padding: 0;
-    display: flex;
-    flex-direction: column;
-   
-background-color: Black;
-min-height: 100vh;
 }
 
 body {
+    height: 100%;
     display: flex;
     flex-direction: column;
-    min-height: 100vh; /* Garante que o body ocupe toda a altura da tela */
+    justify-content: space-between; /* Faz o footer ficar na parte inferior */
+    min-height: 100vh; /* Garantir que o body ocupe 100% da altura da tela */
 }
 
+#particles-js {
+    position: fixed;
+    width: 110%;
+    height: 100vh;
+    background: black;
+    z-index: -1;
+}
 
 main {
     flex-grow: 1; /* Faz o conteúdo ocupar o espaço disponível */
@@ -41,15 +52,17 @@ main {
     flex-direction: column;
     justify-content: flex-start;
 }
-.container-tarefa{
+
+.container-tarefa {
     width: 97%;
 }
+
 .container-tarefa, .container2 {
     margin-bottom: 20px;
 }
 
 h1 {
-    font-family: Arial, Helvetica, sans-serif;
+    font-family: 'Orbitron', sans-serif;
     font-size: 40px;
     text-align: center;
     color: var(--cor-Contorno);
@@ -67,10 +80,11 @@ h1 {
 
 .novaTarefa::placeholder {
     font-size: 20px;
-    color: var(--cor-placeholder);
+    color: rgb(59, 59, 59);
 }
 
 label {
+    font-family: 'Orbitron', sans-serif;
     font-size: 16px;
     font-weight: bold;
     margin-bottom: 7px;
@@ -80,7 +94,7 @@ label {
 .container2 {
     margin-bottom: 10px;
     display: flex;
-    gap: 5px;
+    gap: 15px;
     padding: 0;
 }
 
@@ -98,13 +112,15 @@ label {
     border-radius: 5px;
     border: solid 1px var(--Cor-fontes);
 }
-.container_hora input{
+
+.container_hora input {
     padding: 3.8px;
     border-radius: 5px;
     border: solid 1px var(--Cor-fontes);
 }
 
 h2 {
+    font-family: 'Orbitron', sans-serif;
     text-align: center;
     font-size: 32px;
     color: var(--Cor-fontes);
@@ -115,7 +131,7 @@ ul.listas {
     margin: 0;
     max-height: 700px;
     overflow-y: auto;
-    font-size: 19px;
+    font-size: 25px;
     color: var(--Cor-fontes);
 }
 
@@ -135,8 +151,7 @@ ul.listas li {
     background-color: var(--cor-fundo-Listas);
 }
 
-
- .tarefa-descricao {
+.tarefa-descricao {
     font-weight: bold;
     max-width: 100%; /* Garante que o texto respeite o tamanho do contêiner */
     word-wrap: break-word;
@@ -144,8 +159,6 @@ ul.listas li {
     white-space: normal; /* Permite múltiplas linhas */
     display: block; /* Garante que o elemento ocupe toda a largura */
 }
-    
-
 
 .tarefa-data {
     font-size: 14px;
@@ -165,102 +178,104 @@ ul.listas li {
     justify-content: center;
     align-items: center;
     margin-left: auto;
-
 }
+
 input[type="checkbox"] {
-    background-color: black;    /* Fundo preto */
-    border: 2px solid white;    /* Contorno branco */
-    width: 20px;                /* Tamanho do checkbox */
-    height: 20px;               /* Tamanho do checkbox */
-    border-radius: 4px;         /* Bordas arredondadas (opcional) */
-    appearance: none;           /* Remove a aparência padrão do checkbox */
+    background-color: black; /* Fundo preto */
+    border: 2px solid white; /* Contorno branco */
+    width: 20px; /* Tamanho do checkbox */
+    height: 20px; /* Tamanho do checkbox */
+    border-radius: 4px; /* Bordas arredondadas (opcional) */
+    appearance: none; /* Remove a aparência padrão do checkbox */
     position: relative;
 }
 
 input[type="checkbox"]:checked {
-    background-color: black;    /* Fundo preto quando marcado */
-    border: 2px solid white;    /* Contorno branco quando marcado */
+    background-color: black; /* Fundo preto quando marcado */
+    border: 2px solid white; /* Contorno branco quando marcado */
 }
 
 input[type="checkbox"]:after {
-    content: '';                
+    content: '';
     position: absolute;
     left: 5px;
     top: 5px;
-    width: 10px;                /* Tamanho da marca de seleção */
-    height: 10px;               /* Tamanho da marca de seleção */
-    background-color: white;    /* Cor da marca de seleção */
-    opacity: 0;                 /* Inicialmente invisível */
-    transition: opacity 0.3s;   /* Transição suave ao marcar/desmarcar */
+    width: 10px; /* Tamanho da marca de seleção */
+    height: 10px; /* Tamanho da marca de seleção */
+    background-color: white; /* Cor da marca de seleção */
+    opacity: 0; /* Inicialmente invisível */
+    transition: opacity 0.3s; /* Transição suave ao marcar/desmarcar */
 }
 
 input[type="checkbox"]:checked:after {
-    opacity: 1;                 /* Torna a marca visível quando marcado */
-}
-
-
-button:hover {
-    background-color: var(--cor-hoverBtn);
+    opacity: 1; /* Torna a marca visível quando marcado */
 }
 
 .btnAdicionar {
+    font-weight: bold;
     width: 100%;
     cursor: pointer;
     padding: 10px;
-    border: none;
+    border: solid 1px;
     border-radius: 5px;
-    background-color: var(--cor-botao);
-    color: #fff;
+    background-color: var(--cor-botao-principal);
+    color: var(--cor-btnprincipalFonte);
     font-size: 20px;
     text-transform: uppercase;
 }
 
+.btnAdicionar:hover {
+    background-color: transparent;
+    border: solid 1px #ffffff;
+    color: #ffffff;
+    transition: 3s;
+}
+
 .btn-editar {
-    background-color: #0c1830;
+    background-color: var(--cor-btneditar);
     color: white;
-    border: none;
+    font-weight: bold;
+    border: solid 1px transparent;
     padding: 5px 20px;
     border-radius: 3px;
     cursor: pointer;
 }
 
 .btn-editar:hover {
-    background-color: rgb(0, 49, 139);
+    border: solid 1px var(--cor-btneditar);
+    background-color: transparent;
+    transition: 3s;
 }
 
 .btn-remover {
-    background-color: #5a0404;
+    background-color: var(--cor-btnremover);
     color: white;
-    border: none;
+    font-weight: bold;
+    border: solid 1px transparent;
     padding: 5px 10px;
     border-radius: 3px;
     cursor: pointer;
 }
 
 .btn-remover:hover {
-    background-color: darkred;
+    border: solid 1px var(--cor-btnremover);
+    background-color: transparent;
+    transition: 3s;
 }
 
 footer {
-    background-color: #000000;
+    background-color: transparent;
     color: white;
     text-align: center;
-    padding: 10px;
+    padding: 15px;
     font-size: 14px;
     width: 100%;
-    border-top: solid 0.5px rgb(27, 27, 27);
+    margin-top: auto; /* Faz o footer ficar na parte inferior da tela */
 }
 
-footer p {
-    margin: 0;
-}
 
 footer img {
     width: 50px;
-}
-
-body {
-    padding-bottom: 60px;
 }
 
 .listas {
@@ -280,6 +295,9 @@ body {
 }
 
 @media (max-width: 768px) {
+    body {
+        min-height: 100vh; /* Garantir que o body cubra a altura total da tela */
+    }
     main {
         width: 90%;
         padding: 15px;
@@ -293,62 +311,32 @@ body {
         font-size: 14px;
         padding: 8px;
     }
-
-    .tarefa-descricao {
-        font-size: 16px;
-    }
-
-    .btnAdicionar {
-        font-size: 16px;
-        padding: 10px;
-    }
-
-    .btn-editar, .btn-remover {
-        font-size: 14px;
-        padding: 4px 8px;
-    }
 }
 
 @media (max-width: 500px) {
-    .container_data input{
-        padding: 4.5px;
+    html{
+        height: 100vh;
     }
-   
-    ul.listas li {
-        font-size: 14px;
-        padding: 6px;
-    }
-    .novaTarefa{
-        padding: 10px 6px;
-    }
-    .tarefa-data{
-        font-size: 11px;
+    body {
+        min-height: 105vh; /* Garantir que o body cubra 100% da tela, também no mobile */
     }
 
-    .tarefa-descricao {
-        font-size: 14px;
+    main {
+        padding: 10px;
+    }
+
+    h1, h2 {
+        font-size: 20px;
+    }
+
+    ul.listas li {
+        font-size: 18px;
+        padding: 6px;
     }
 
     .btnAdicionar {
         font-size: 14px;
-        padding: 6px;
+        padding: 8px;
     }
 
-    .btn-editar, .btn-remover {
-        font-size: 12px;
-        padding: 3px 6px;
-    }
-    .btnAdicionar{
-        padding: 10px;
-    }
-    .btn-editar{
-        padding: 10px 15px;
-    }
-    .btn-remover{
-        padding: 10px 15px;
-    }
-    footer img {
-    width: 30px;      /* Tamanho da imagem */
- }
-       
 }
