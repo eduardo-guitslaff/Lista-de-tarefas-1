@@ -1,3 +1,25 @@
+particlesJS("particles-js", {
+    particles: {
+        number: { value: 100 },
+        color: { value: "#ffffff" },
+        shape: { type: "circle" },
+        opacity: { value: 0.5, random: true },
+        size: { value: 3, random: true },
+        move: { enable: true, speed: 2 },
+        line_linked: {
+            enable: true,
+            distance: 120,
+            color: "#ffffff",
+            opacity: 0.4,
+            width: 1
+        }
+    },
+    interactivity: {
+        detect_on: "canvas",
+        events: { onhover: { enable: true, mode: "repulse" } }
+    }
+});
+
 // Variáveis de referência para os elementos HTML
 const inputTarefa = document.querySelector('.novaTarefa');
 const listaTarefas = document.querySelector('.listas');
@@ -102,12 +124,17 @@ function reorganizarTarefas() {
 // Função para adicionar nova tarefa
 btnAdicionar.addEventListener('click', function() {
     const descricao = inputTarefa.value.trim();
-    const data = new Date().toLocaleDateString('pt-BR');
-    const hora = new Date().toLocaleTimeString('pt-BR', { hour12: false });
+    const data = document.querySelector('.dataTarefa').value.trim(); // Pegando o valor da data
+    const hora = document.querySelector('.horaTarefa').value.trim(); // Pegando o valor da hora
 
     if (descricao === '') {
         alert('Por favor, digite uma descrição para a tarefa!');
-        return; // Não adiciona tarefas vazias
+        return; // Não adiciona tarefas sem descrição
+    }
+
+    if (data === '' || hora === '') {
+        alert('Por favor, adicione a data e a hora para a tarefa!');
+        return; // Não adiciona tarefas sem data e hora
     }
 
     criarTarefa(descricao, data, hora);
@@ -117,9 +144,8 @@ btnAdicionar.addEventListener('click', function() {
     salvarTarefas(tarefas); // Salva a tarefa no localStorage
 
     inputTarefa.value = ''; // Limpa o campo de input de descrição
-    // Limpar inputs de data e hora (caso existam)
-    document.querySelector('.dataTarefa').value = ''; // Caso haja um input de data específico
-    document.querySelector('.horaTarefa').value = ''; // Caso haja um input de hora específico
+    document.querySelector('.dataTarefa').value = ''; // Limpa o campo de data
+    document.querySelector('.horaTarefa').value = ''; // Limpa o campo de hora
 
     reorganizarTarefas(); // Reorganizar as tarefas com as concluídas no final
 });
