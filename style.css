@@ -15,6 +15,9 @@
     --cor-btnremover:red;
 }
 
+* {
+    box-sizing: border-box;
+}
 html, body {
     height: 100%;
     margin: 0;
@@ -108,13 +111,13 @@ label {
 }
 
 .container_data input {
-    padding: 5px;
+    padding: 4px;
     border-radius: 5px;
     border: solid 1px var(--Cor-fontes);
 }
 
 .container_hora input {
-    padding: 3.8px;
+    padding: 2.8px;
     border-radius: 5px;
     border: solid 1px var(--Cor-fontes);
 }
@@ -134,6 +137,7 @@ ul.listas {
     font-size: 25px;
     color: var(--Cor-fontes);
 }
+
 
 ul.listas li {
     display: flex;
@@ -181,17 +185,17 @@ ul.listas li {
 }
 
 input[type="checkbox"] {
-    background-color: black; /* Fundo preto */
+    background-color: rgb(206, 18, 18); /* Fundo preto */
     border: 2px solid white; /* Contorno branco */
     width: 20px; /* Tamanho do checkbox */
     height: 20px; /* Tamanho do checkbox */
     border-radius: 4px; /* Bordas arredondadas (opcional) */
-    appearance: none; /* Remove a aparência padrão do checkbox */
+    ; /* Remove a aparência padrão do checkbox */
     position: relative;
 }
 
 input[type="checkbox"]:checked {
-    background-color: black; /* Fundo preto quando marcado */
+    background-color: rgb(5, 0, 0); /* Fundo preto quando marcado */
     border: 2px solid white; /* Contorno branco quando marcado */
 }
 
@@ -202,7 +206,7 @@ input[type="checkbox"]:after {
     top: 5px;
     width: 10px; /* Tamanho da marca de seleção */
     height: 10px; /* Tamanho da marca de seleção */
-    background-color: white; /* Cor da marca de seleção */
+    background-color: transparent; /* Cor da marca de seleção */
     opacity: 0; /* Inicialmente invisível */
     transition: opacity 0.3s; /* Transição suave ao marcar/desmarcar */
 }
@@ -331,7 +335,7 @@ footer img {
 
     ul.listas li {
         font-size: 18px;
-        padding: 6px;
+        padding: 5px;
     }
 
     .btnAdicionar {
