@@ -127,6 +127,7 @@ btnAdicionar.addEventListener('click', function() {
     const data = document.querySelector('.dataTarefa').value.trim(); // Pegando o valor da data
     const hora = document.querySelector('.horaTarefa').value.trim(); // Pegando o valor da hora
 
+    // Validação de dados
     if (descricao === '') {
         alert('Por favor, digite uma descrição para a tarefa!');
         return; // Não adiciona tarefas sem descrição
@@ -135,6 +136,28 @@ btnAdicionar.addEventListener('click', function() {
     if (data === '' || hora === '') {
         alert('Por favor, adicione a data e a hora para a tarefa!');
         return; // Não adiciona tarefas sem data e hora
+    }
+
+    // Validando formato de data e hora
+    const dataRegex = /^\d{4}-\d{2}-\d{2}$/; // Padrão de data YYYY-MM-DD
+    const horaRegex = /^([01]?[0-9]|2[0-3]):([0-5]?[0-9])$/; // Padrão de hora HH:MM
+
+    if (!data.match(dataRegex)) {
+        alert('Data inválida! Utilize o formato: YYYY-MM-DD');
+        return;
+    }
+
+    if (!hora.match(horaRegex)) {
+        alert('Hora inválida! Utilize o formato: HH:MM');
+        return;
+    }
+
+    // Verifica se a data é futura
+    const dataTarefa = new Date(data);
+    const dataAtual = new Date();
+    if (dataTarefa < dataAtual) {
+        alert('A data não pode ser no passado!');
+        return;
     }
 
     criarTarefa(descricao, data, hora);
